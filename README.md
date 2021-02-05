@@ -5,9 +5,9 @@ La première démonstration permet la visualisation du nuage de points dans le m
 
 # Installation
 
-	ROS utilise le système Catkin pour la compilation du code en modules exécutables. Catkin utilise un dossier ‘workspace’ pour organiser la production de code, et dans le cas du Wifibot, ce dossier se trouve dans le dossier /mnt/nvme. 
+ROS utilise le système Catkin pour la compilation du code en modules exécutables. Catkin utilise un dossier ‘workspace’ pour organiser la production de code, et dans le cas du Wifibot, ce dossier se trouve dans le dossier /mnt/nvme. 
 
-	Afin d’installer l’une ou l’autre des démos, il faut:
+Afin d’installer l’une ou l’autre des démos, il faut:
 
 S’assurer que le dossier catkin_ws se trouve au bon endroit dans l’ordinateur du Wifibot, et que le dossier contient les dossiers devel, src, et build. Si ceci n’est pas le cas, suivre les instructions au lien suivant: http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment en placant le workspace non pas  à ~ mais à /mnt/nvme. 
 
@@ -24,32 +24,32 @@ Pour la démonstration de visualisation, la visualisation peut être effectuée 
 
 Il faut simplement executer la commande suivante dans un terminal du wifibot:
 
-roslaunch ti_mmwave_roskpkg 6843_multi_3d_0bak.launch
+	roslaunch ti_mmwave_roskpkg 6843_multi_3d_0bak.launch
 
 Si l’on fait la visualisation depuis le Wifibot lui-même, on ouvre RVIZ en utilisant la commande rosrun rviz rviz dans un nouveau terminal. Ensuite on change le paramètre fixed frame (à gauche de la fenêtre RVIZ) à ti_mmwave_pcl et on ajoute (en utilisant le bouton add en bas à gauche de la fenêtre RVIZ un topic pointcloud2. On met le topic observé à radar_scan_pcl_0. Si tout se passe correctement, on devrait maintenant observer les points détectés par le radar sur l’écran. Les paramètres de visualisation du topic peuvent être modifiés afin de mieux percevoir les objets détectés.  
 
 Si l’on fait cette démonstration en utilisant la visualisation depuis un ordinateur à distance, qui est sur le réseau du wifibot, il faut simplement utiliser ssh (ssh wifibot@<IP_DU_WIFIBOT>, mot de passe: wifibot) pour accéder au terminal de l’ordinateur NVIDIA du wifibot. Cependant pour la visualisation avec RVIZ depuis l’autre ordinateur il est nécessaire que les modules ROS du wifibot et de l’ordinateur puissent communiquer. Pour cela il faut tout d’abord s’assurer que ROS (version melodic de préférence) est bien installé sur l’ordinateur utilisé pour la visualisation à distance. De plus, il faut effectuer deux modifications. La première modification est d’ajouter les deux lignes suivantes au fichier ~/.bashrc du Wifibot avant de commencer la démonstration. 
 
-  export ROS_MASTER_URI=http://localhost:11311
-  export ROS_IP=<IP_DU_WIFIBOT>
+  	export ROS_MASTER_URI=http://localhost:11311
+  	export ROS_IP=<IP_DU_WIFIBOT>
 
 L’IP du Wifibot devrait être 192.168.2.106. La deuxième modification à faire est d’ajouter les deux lignes suivantes au fichier ~/.bashrc du portable avant de commencer la démonstration. 
 
 
-  export ROS_MASTER_URI=http://<IP_DU_WIFIBOT>:11311
-  export ROS_IP=<IP_DE_L’ORDINATEUR_DE_VISUALISATION>
+  	export ROS_MASTER_URI=http://<IP_DU_WIFIBOT>:11311
+  	export ROS_IP=<IP_DE_L’ORDINATEUR_DE_VISUALISATION>
 
 Grâce aux variables d'environnement mises en place avec ces deux modifications, le lancement de RVIZ sur l’ordinateur pourra communiquer avec les modules ROS du wifibot. 
 
 Pour la démonstration d'arrêt du wifibot sur détection d'obstacle, il est également nécessaire de se connecter à l'ordinateur NVIDIA du Wifibot par ssh sur deux terminaux (ssh wifibot@<IP_DU_WIFIBOT>, mot de passe: wifibot). Dans le premier terminal il faut exécuter la commande suivante:
 
-roslaunch turtlebot_bringup minimal.launch 
+	roslaunch turtlebot_bringup minimal.launch 
 
 Dans le deuxième terminal il faut exécuter la commande suivante :
 
-rosrun wifibot wifibot
+	rosrun wifibot wifibot
 
-	Il est conseillé d'arrêter avec Ctrl+C l'exécution de la deuxième commande pour arrêter le robot si besoin, car arrêter la première commande n'empêche pas le robot de continuer d’avancer.  
+Il est conseillé d'arrêter avec Ctrl+C l'exécution de la deuxième commande pour arrêter le robot si besoin, car arrêter la première commande n'empêche pas le robot de continuer d’avancer.  
 
 Afin de modifier le comportement d’arrêt du robot lors de la détection d’un obstacle devant lui, il suffit de modifier le code du fichier /catkin_ws/src/ti_mmwave_rospkg/src/DataHandlerClass.cpp. 
 
